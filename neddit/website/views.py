@@ -1,5 +1,13 @@
 from django.views import generic
 
 
-class IndexView(generic.TemplateView):
+class BaseView(generic.TemplateView):
+    template_name = 'website/base.html'
+
+
+class LandingView(BaseView):
+    template_name = 'website/landing.html'
+    
+
+class IndexView(BaseView):
     template_name = 'website/index.html'
