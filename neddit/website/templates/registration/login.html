@@ -1,0 +1,15 @@
+{% extends "website/base.html" %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="container card my-2">
+  <div class="card-body">
+    <h1>Login to Neddit</h1>
+    <form method="post">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% buttons %}
+        <button class="btn btn-outline-dark" type="submit">Login</button>
+      {% endbuttons %}
+  </div>
+</div>
+{% endblock %}

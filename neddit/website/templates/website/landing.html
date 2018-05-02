@@ -1,5 +1,35 @@
 {% extends "website/base.html" %}
-{% block navbar %}{% endblock %}
+{% block navbar %}{% endblock %} <!-- remove the navbar -->
 {% block content %}
-<p>Welcome</p>
+<div class="container-fluid">
+  <!-- Page Content -->
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <h1 class="mt-5 title">Neddit.</h1>
+            <p>A web application for UNSW communities, we empower students and
+            staff with the ability to share and upload course notes and discuss courses.
+            Student run and free to use.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>
+
+<!-- TODO: Put this in an actual CSS file -->
+<style>
+body {
+  background: rgba(99, 216, 149, 1);
+  color: white;
+}
+
+h1 {
+  font-size: 8rem;
+}
+
+p {
+  font-size: 1.5rem;
+}
+</style>
 {% endblock %}
