@@ -7,5 +7,6 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('landing/', views.LandingView.as_view(), name='landing'),
     path('faq/', views.FaqView.as_view(), name='faq'),
-    path('accounts/', include('django.contrib.auth.urls'))
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('n/<str:subneddit>', views.view_subneddit, name='subneddit')
 ]

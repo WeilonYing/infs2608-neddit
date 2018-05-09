@@ -1,3 +1,43 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
 
 # Create your models here.
+class Subneddit(models.Model):
+    id = models.CharField(
+        verbose_name="Course Code", max_length=8, primary_key=True)
+    name = models.CharField(verbose_name="Course Name", max_length=100)
+    subscribed = models.ManyToManyField(
+        get_user_model(), related_name="Subscriber")
+    admin = models.ManyToManyField(
+        get_user_model(), related_name="Admin")
+
+
+class Post(models.Model):
+    subneddit = models.ForeignKey(Subneddit, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    submitDate = models.DateTimeField()
+    isTextPost = models.BooleanField()
+    content = models.TextField()
+    author = models.ForeignKey(
+        get_user_model(), on_delete=models.SET_NULL, blank=True, null=True)
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    parentComment = models.ForeignKey(
+        'Comment', on_delete=models.CASCADE, blank=True, null=True)
+    content = models.TextField()
+    submitDate = models.DateTimeField()
+
+
+class PostVotes(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    voteVal = models.IntegerField()
+
+
+class CommentVotes(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    voteVal = models.IntegerField()

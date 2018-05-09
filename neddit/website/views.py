@@ -1,3 +1,4 @@
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 
 
@@ -15,3 +16,10 @@ class IndexView(BaseView):
 
 class FaqView(BaseView):
     template_name = 'website/faq.html'
+
+
+def view_subneddit(request, subneddit):
+    context = {
+        'subneddit_code': subneddit.upper(),
+    }
+    return render(request, 'website/subneddit.html', context)
