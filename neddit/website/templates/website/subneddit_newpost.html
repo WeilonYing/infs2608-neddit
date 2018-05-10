@@ -1,0 +1,16 @@
+{% extends "website/subneddit_base.html" %}
+{% load bootstrap4 %}
+{% block subneddit_content %}
+<div class="card my-2">
+  <div class="card-body">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% buttons %}
+        <button class="btn btn-outline-primary btn-block" type="submit">Submit</button>
+      {% endbuttons %}
+    </form>
+  </div>
+</div>
+
+{% endblock %}

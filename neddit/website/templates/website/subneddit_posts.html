@@ -1,0 +1,20 @@
+{% extends "website/subneddit_base.html" %}
+{% block subneddit_content %}
+
+{% if posts %}
+  {% for post in posts %}
+  <div class="card my-2">
+    <div class="card-body">
+      <p>Posts will go here</p>
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+<div class="card my-2">
+  <div class="card-body">
+    <p>No posts in this subneddit :(</p>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

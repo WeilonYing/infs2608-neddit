@@ -8,5 +8,6 @@ urlpatterns = [
     path('landing/', views.LandingView.as_view(), name='landing'),
     path('faq/', views.FaqView.as_view(), name='faq'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('n/<str:subneddit>', views.view_subneddit, name='subneddit')
+    path('n/<str:subneddit>/', views.view_subneddit, name='subneddit'),
+    path('n/<str:subneddit>/new/', views.view_newpost, name='newpost')
 ]

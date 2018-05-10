@@ -1,0 +1,33 @@
+{% extends "website/base.html" %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <div class="card my-2">
+        <div class="card-body">
+          <h1>n/{{ subneddit_code }}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8">
+      {% block subneddit_content %}{% endblock %}
+    </div>
+    <div class="col-sm"> <!-- Sidebar -->
+      <div class="card my-2">
+        <div class="card-body">
+          <a href="{% url 'website:newpost' subneddit=subneddit_code %}" class="btn btn-primary btn-block">
+            Create New Post</a>
+            <br/>
+          <h4>Sidebar</h4>
+          {{ sidebar }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
