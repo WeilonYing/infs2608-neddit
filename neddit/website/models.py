@@ -8,9 +8,12 @@ class Subneddit(models.Model):
         verbose_name="Course Code", max_length=8, primary_key=True)
     name = models.CharField(verbose_name="Course Name", max_length=100)
     subscribed = models.ManyToManyField(
-        get_user_model(), related_name="Subscriber")
+        get_user_model(), related_name="Subscriber", blank=True)
     admin = models.ManyToManyField(
         get_user_model(), related_name="Admin")
+
+    def __str__(self):
+        return self.id + ' (' + self.name + ')'
 
 
 class Post(models.Model):
@@ -22,6 +25,9 @@ class Post(models.Model):
     author = models.ForeignKey(
         get_user_model(), on_delete=models.SET_NULL, blank=True, null=True)
 
+    def __str__(self):
+        return self.title + '-' + self.subneddit + '-' + self.author.username
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -29,6 +35,11 @@ class Comment(models.Model):
         'Comment', on_delete=models.CASCADE, blank=True, null=True)
     content = models.TextField()
     submitDate = models.DateTimeField()
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+
+    def __str__(self):
+        return ('Comment on ' + self.post.title + ' by ' + self.author.username
+            + ' (' + self.submitDate + ')')
 
 
 class PostVotes(models.Model):
@@ -36,8 +47,14 @@ class PostVotes(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     voteVal = models.IntegerField()
 
+    def __str__(self):
+        return self.post.title + '-' + self.user.username + '-' + str(self.voteVal)
+
 
 class CommentVotes(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     voteVal = models.IntegerField()
+
+    def __str__(self):
+        return str(self.comment) + '-' + str(self.voteVal)

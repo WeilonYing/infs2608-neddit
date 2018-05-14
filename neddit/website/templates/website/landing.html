@@ -16,12 +16,10 @@
         </div>
         <div class="row">
           <div class="col-lg-4">
-            {% if user.is_authenticated %}
+          {% if user.is_authenticated %}
             <a href="{% url 'website:index' %}">
               <button class="btn btn-outline-light">Continue to Neddit</button></a>
-            {% else %}
-            <!-- <a href="{% url 'website:login' %}">
-              <button class="btn btn-outline-light">Login</button></a> -->
+          {% else %}
             <form method="POST" action="{% url 'website:login' %}">
             {% csrf_token %}
             {% bootstrap_form form %}
@@ -29,7 +27,7 @@
               <button class="btn btn-outline-light" type="submit">Login</button>
             {% endbuttons %}
             </form>
-            {% endif %}
+          {% endif %}
           </div>
         </div>
       <div class="container">

@@ -3,6 +3,7 @@
 {% block subneddit_content %}
 <div class="card my-2">
   <div class="card-body">
+    {% if user.is_authenticated %}
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {% bootstrap_form form %}
@@ -10,6 +11,9 @@
         <button class="btn btn-outline-primary btn-block" type="submit">Submit</button>
       {% endbuttons %}
     </form>
+    {% else %}
+    <p>You need to be logged in to make a post.</p>
+    {% endif %}
   </div>
 </div>
 
