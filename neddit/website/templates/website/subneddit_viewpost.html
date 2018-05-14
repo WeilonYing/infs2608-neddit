@@ -1,0 +1,18 @@
+{% extends "website/subneddit_base.html" %}
+{% load bootstrap4 %}
+{% block subneddit_content %}
+<div class="card my-2 border-dark">
+  <h5 class="card-header">{{ post.title }}</h5>
+  <div class="card-body">
+    <p class="card-text">{{ post.content }}</p>
+  </div>
+  <div class="card-footer text-muted">
+    Posted by {{ post.author }} on {{ post.submitDate }}
+  </div>
+</div>
+
+<hr />
+<h4>Comments</h4>
+{% include 'website/post_comment.html' with comments=comments %}
+
+{% endblock %}

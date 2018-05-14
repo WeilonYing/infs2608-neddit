@@ -9,5 +9,6 @@ urlpatterns = [
     path('faq/', views.FaqView.as_view(), name='faq'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('n/<str:sub_id>/', views.view_subneddit, name='subneddit'),
-    path('n/<str:sub_id>/new/', views.view_newpost, name='newpost')
+    path('n/<str:sub_id>/new/', views.view_newpost, name='newpost'),
+    path('n/<str:sub_id>/<int:post_id>', views.view_post, name='viewpost')
 ]

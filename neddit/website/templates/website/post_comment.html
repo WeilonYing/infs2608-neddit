@@ -1,0 +1,13 @@
+{% if comments %}
+  {% for c in comments %}
+    <div class="card my-2">
+      <div class="card-body">
+        <p>{{ c.comment.content }}</p>
+        <p class="text-muted">
+          Posted by {{ c.comment.author }} on {{ c.comment.submitDate }}
+        </p>
+        {% include 'website/post_comment.html' with comments=c.children %}
+      </div>
+    </div>
+  {% endfor %}
+{% endif %}

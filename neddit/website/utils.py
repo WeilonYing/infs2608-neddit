@@ -1,5 +1,5 @@
 from datetime import datetime
-from .models import Post, Subneddit
+from .models import Comment, Post, Subneddit
 
 
 def create_post(
@@ -24,7 +24,7 @@ def create_post(
             title=title,
             content=content,
             author=author,
-            file=file,
+            notefile=file,
             isTextPost=isTextPost,
             submitDate=submitDate)
         p.save()
@@ -32,3 +32,24 @@ def create_post(
     except Exception as e:
         print(e)
         return False
+
+def recursive_get_child_comments(parentcomment):
+    comment_tree = []
+    for c in Comment.objects.filter(parentComment=parentcomment):
+        comment_tree.append({
+            'comment': c,
+            'children': recursive_get_child_comments(c)
+        })
+
+    return comment_tree
+
+def get_comments(post):
+    # first, get top level comments, then recursively get its children
+    comment_tree = []
+    for c in Comment.objects.filter(parentComment=None, post=post):
+        comment_tree.append({
+            'comment': c,
+            'children': recursive_get_child_comments(c)
+        })
+
+    return comment_tree

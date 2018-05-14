@@ -5,7 +5,10 @@
     <div class="col-sm">
       <div class="card my-2">
         <div class="card-body">
-          <h1>n/{{ subneddit_code }}</h1>
+          <h4 class="display-4">{{ subneddit.name }}</h4>
+          <h4><a href="{% url 'website:subneddit' sub_id=subneddit.id %}">
+            n/{{ subneddit.id }}
+          </a></h4>
         </div>
       </div>
     </div>
@@ -18,7 +21,7 @@
     <div class="col-sm"> <!-- Sidebar -->
       <div class="card my-2">
         <div class="card-body">
-          <a href="{% url 'website:newpost' sub_id=subneddit_code %}" class="btn btn-primary btn-block">
+          <a href="{% url 'website:newpost' sub_id=subneddit.id %}" class="btn btn-primary btn-block">
             Create New Post</a>
             <br/>
           <h4>Sidebar</h4>

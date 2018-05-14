@@ -17,16 +17,22 @@ class Subneddit(models.Model):
 
 
 class Post(models.Model):
+    def makepath(instance, filename):
+        return '{0}/{1}/%Y-%m-%d-%H-%M-%S/{2}'.format(
+            instance.subneddit.id, instance.author.username, filename)
+
+    id = models.IntegerField(primary_key=True)
     subneddit = models.ForeignKey(Subneddit, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     submitDate = models.DateTimeField()
     isTextPost = models.BooleanField()
     content = models.TextField()
     author = models.ForeignKey(
-        get_user_model(), on_delete=models.SET_NULL, blank=True, null=True)
+        get_user_model(), on_delete=models.CASCADE)
+    notefile = models.FileField(upload_to=makepath, blank=True, null=True)
 
     def __str__(self):
-        return self.title + '-' + self.subneddit + '-' + self.author.username
+        return self.title + '-' + self.subneddit.id + '-' + self.author.username
 
 
 class Comment(models.Model):
@@ -39,7 +45,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return ('Comment on ' + self.post.title + ' by ' + self.author.username
-            + ' (' + self.submitDate + ')')
+            + ' (' + str(self.submitDate) + ')')
 
 
 class PostVotes(models.Model):
