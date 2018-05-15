@@ -49,7 +49,7 @@ and [Django Project](https://www.djangoproject.com/)
 - [Bootstrap Framework](https://getbootstrap.com/)
 
 ## Disclaimer
-This is a university software project build for the sole purpose of prototyping
+This is a university software project built for the sole purpose of prototyping
 a hypothetical crowdsourcing tool for the students of University of New South Wales.
 Neddit is not an actual website, and is not affiliated with the University of
 New South Wales in any shape or form.
