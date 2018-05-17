@@ -10,16 +10,29 @@
       {% endif %}
     </div>
   </div>
-  <div class="card my-2">
-    <div class="card-body">
-      <p>Posts will go here</p>
+  {% if posts %}
+    {% for p in posts %}
+    <div class="card my-2">
+      <div class="card-body">
+        <a href="{% url 'website:viewpost' sub_id=p.subneddit.id post_id=p.id %}">
+          <h5 class="card-title">{{ p.title }}</h5>
+        </a>
+        <p>Posted by <a href="#">{{ p.author.username }}</a> on {{ p.submitDate }}
+          <br/>
+          <a href="{% url 'website:subneddit' sub_id=p.subneddit.id %}">
+            <span class="text-muted">n/{{ p.subneddit.id }}</span>
+          </a>
+        </p>
+      </div>
     </div>
-  </div>
-  <div class="card my-2">
-    <div class="card-body">
-      <p>Another post will go here</p>
+    {% endfor %}
+  {% else %}
+    <div class="card my-2">
+      <div class="card-body">
+        <p>No posts yet :(</p>
+      </div>
     </div>
-  </div>
+  {% endif %}
 </div>
 
 {% endblock %}

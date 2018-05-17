@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
+from datetime import datetime
 
-# Create your models here.
+
 class Subneddit(models.Model):
     id = models.CharField(
         verbose_name="Course Code", max_length=8, primary_key=True)
@@ -19,8 +20,13 @@ class Subneddit(models.Model):
 
 class Post(models.Model):
     def makepath(instance, filename):
-        return '{0}/{1}/%Y-%m-%d-%H-%M-%S/{2}'.format(
-            instance.subneddit.id, instance.author.username, filename)
+        now = datetime.now()
+        # TODO: Find a better way to address concurrency issue here
+        return '{0}/{1}/{2}/{3}'.format(
+            instance.subneddit.id,
+            instance.author.username,
+            now.strftime("%Y-%m-%d-%H-%M-%S"),
+            filename)
 
     subneddit = models.ForeignKey(Subneddit, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)

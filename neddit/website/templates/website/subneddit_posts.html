@@ -4,7 +4,6 @@
 {% if posts %}
   {% for post in posts %}
   <div class="card my-2">
-
       <div class="card-body">
         <a href="{% url 'website:viewpost' sub_id=subneddit.id post_id=post.id %}">
           <h5 class="card-title">{{ post.title }}</h5>

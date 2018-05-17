@@ -4,6 +4,12 @@
 <div class="card my-2 border-dark">
   <h5 class="card-header">{{ post.title }}</h5>
   <div class="card-body">
+    {% if post.notefile %}
+      <a class="btn btn-primary"
+          href="{% url 'website:postdownload' sub_id=subneddit.id post_id=post.id %}">
+          Download
+      </a>
+    {% endif %}
     <p class="card-text">{{ post.content|linebreaks }}</p>
   </div>
   <div class="card-footer text-muted">

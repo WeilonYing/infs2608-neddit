@@ -1,4 +1,5 @@
-from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotFound, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseNotFound, HttpResponseServerError
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
@@ -6,6 +7,8 @@ from django.views import generic
 from .forms import CommentForm, LoginForm, PostForm
 from .models import Comment, Post, Subneddit
 from .utils import create_comment, create_post, get_comments
+
+import os
 
 
 class BaseView(generic.TemplateView):
@@ -23,6 +26,11 @@ class LandingView(BaseView):
 
 class IndexView(BaseView):
     template_name = 'website/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = Post.objects.all()
+        return context
 
 
 class FaqView(BaseView):
@@ -62,8 +70,12 @@ def view_newpost(request, sub_id):
         title = request.POST['title']
         author = request.user
         content = request.POST['content']
-        file = None  # TODO: Add file support #6
-        isTextPost = True  # TODO: Add file support #6
+
+        try:
+            file = request.FILES['file']
+        except Exception as e:
+            file = None
+        isTextPost = True if file is not None else False
 
         post_obj = create_post(sub_id, title, author, content, file, isTextPost)
         if post_obj is not None:
@@ -81,6 +93,9 @@ def view_post(request, sub_id, post_id):
         return HttpResponseNotFound()
 
     post_obj = Post.objects.get(id=post_id)
+    if not post_obj:
+        return HttpResponseNotFound()
+
     comments = get_comments(post_obj)
     context = {
         'subneddit': subneddit_obj,
@@ -122,3 +137,17 @@ def post_comment(request, sub_id, post_id, parent_comment_id):
         return HttpResponseRedirect(
             reverse('website:viewpost', args=(sub_id, post_obj.id,)))
     return HttpResponseServerError()
+
+def post_downloadfile(request, sub_id, post_id):
+    sub_id = sub_id.upper()
+    subneddit_obj = Subneddit.objects.get(id=sub_id)
+    if not subneddit_obj:
+        return HttpResponseNotFound()
+
+    post_obj = Post.objects.get(id=post_id)
+    if not post_obj or post_obj.notefile is None:
+        return HttpResponseNotFound()
+    filename = os.path.basename(post_obj.notefile.url)
+    response = HttpResponse(post_obj.notefile.url, content_type='application/octet-stream')
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    return response
