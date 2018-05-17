@@ -110,7 +110,7 @@ def post_comment(request, sub_id, post_id, parent_comment_id):
         return HttpResponseNotFound()
 
     parent_comment_obj = None
-    if parent_comment_id >= 0:  # if < 0, no parent comment
+    if parent_comment_id > 0:  # if <= 0, no parent comment
         parent_comment_obj = Comment.objects.get(id=parent_comment_id)
         if not parent_comment_obj:
             return HttpResponseNotFound()

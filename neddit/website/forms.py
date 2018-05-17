@@ -9,9 +9,9 @@ class LoginForm(forms.Form):
 class PostForm(forms.Form):
     title = forms.CharField(label="Title", max_length=200)
     content = forms.CharField(
-        label="Content", widget=forms.Textarea, required=False, strip=True)
+        label="Content", widget=forms.Textarea, required=False)
     file = forms.FileField(label="Upload Notes", required=False)
 
 
 class CommentForm(forms.Form):
-    comment = forms.CharField(label="Comment", help_text="Comment", strip=True)
+    comment = forms.CharField(label="Make a comment")

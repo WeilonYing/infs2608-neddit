@@ -4,15 +4,31 @@
 <div class="card my-2 border-dark">
   <h5 class="card-header">{{ post.title }}</h5>
   <div class="card-body">
-    <p class="card-text">{{ post.content }}</p>
+    <p class="card-text">{{ post.content|linebreaks }}</p>
   </div>
   <div class="card-footer text-muted">
     Posted by {{ post.author }} on {{ post.submitDate }}
   </div>
 </div>
 
+{% if user.is_authenticated %}
+  <br/>
+  <h5>Reply to this post</h5>
+  <form method="POST"
+      action="{% url 'website:postcomment' sub_id=subneddit.id post_id=post.id parent_comment_id=0 %}">
+    {% csrf_token %}
+
+    {% bootstrap_form form layout='inline' %}
+    {% bootstrap_button "Submit" button_type="submit" button_class="btn-outline-dark" %}
+  </form>
+{% endif %}
+
 <hr />
 <h4>Comments</h4>
-{% include 'website/post_comment.html' with comments=comments form=form %}
+{% if comments %}
+  {% include 'website/post_comment.html' with comments=comments form=form %}
+{% else %}
+  <p>Nobody has commented yet :(</p>
+{% endif %}
 
 {% endblock %}

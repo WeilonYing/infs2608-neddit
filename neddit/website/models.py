@@ -11,6 +11,7 @@ class Subneddit(models.Model):
         get_user_model(), related_name="Subscriber", blank=True)
     admin = models.ManyToManyField(
         get_user_model(), related_name="Admin")
+    sidebar = models.TextField(verbose_name="Sidebar Text", blank=True)
 
     def __str__(self):
         return self.id + ' (' + self.name + ')'
