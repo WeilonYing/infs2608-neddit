@@ -1,3 +1,4 @@
+{% load bootstrap4 %}
 {% if comments %}
   {% for c in comments %}
     <div class="card my-2">
@@ -6,6 +7,16 @@
         <p class="text-muted">
           Posted by {{ c.comment.author }} on {{ c.comment.submitDate }}
         </p>
+
+        {% if user.is_authenticated %}
+          <form method="POST" class="form-inline"
+              action="{% url 'website:postcomment' sub_id=subneddit.id post_id=post.id parent_comment_id=c.comment.id %}">
+            {% csrf_token %}
+
+            {% bootstrap_form form layout='inline' %}
+            {% bootstrap_button "Submit" button_type="submit" button_class="btn-outline-dark" %}
+          </form>
+        {% endif %}
         {% include 'website/post_comment.html' with comments=c.children %}
       </div>
     </div>

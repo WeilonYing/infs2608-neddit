@@ -14,8 +14,8 @@ def create_post(
     @param file: File, optional
     @param isTextPost: bool, optional
     @param submitDate: datetime, optional
-    @return: whether post creation was successful
-    @rtype: bool
+    @return: Post, if creation successful
+    @rtype: Post
     """
     try:
         subneddit_fkey = Subneddit.objects.get(id=subneddit)
@@ -28,12 +28,42 @@ def create_post(
             isTextPost=isTextPost,
             submitDate=submitDate)
         p.save()
-        return True
+        return p
     except Exception as e:
         print(e)
-        return False
+        return None
+
+
+def create_comment(
+    post, parentComment, content, author, submitDate=datetime.now()):
+    """
+    Create and save a comment to database.
+
+    @param post: Post model object
+    @param parentComment: Comment model object, the comment's parent if exists. Nullable.
+    @param content: string, contents of comment
+    @param author: User model object, the user who wrote the comment
+    @param submitDate: datetime, optional
+    @return: Comment, if creation successful
+    @rtype: Comment
+    """
+    try:
+        c = Comment(
+            post=post,
+            parentComment=parentComment,
+            content=content,
+            submitDate=submitDate,
+            author=author)
+        c.save()
+        print(c)
+        return c
+    except Exception as e:
+        print(e)
+        return None
+
 
 def recursive_get_child_comments(parentcomment):
+    """Recursively get the children of a given comment"""
     comment_tree = []
     for c in Comment.objects.filter(parentComment=parentcomment):
         comment_tree.append({
@@ -43,7 +73,9 @@ def recursive_get_child_comments(parentcomment):
 
     return comment_tree
 
+
 def get_comments(post):
+    """Get a list of comments of a given post"""
     # first, get top level comments, then recursively get its children
     comment_tree = []
     for c in Comment.objects.filter(parentComment=None, post=post):

@@ -3,9 +3,9 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 
-from .forms import LoginForm, PostForm
-from .models import Post, Subneddit
-from .utils import create_post, get_comments
+from .forms import CommentForm, LoginForm, PostForm
+from .models import Comment, Post, Subneddit
+from .utils import create_comment, create_post, get_comments
 
 
 class BaseView(generic.TemplateView):
@@ -65,12 +65,14 @@ def view_newpost(request, sub_id):
         file = None  # TODO: Add file support #6
         isTextPost = True  # TODO: Add file support #6
 
-        if create_post(sub_id, title, author, content, file, isTextPost):
+        post_obj = create_post(sub_id, title, author, content, file, isTextPost)
+        if post_obj is not None:
             return HttpResponseRedirect(
-                reverse('website:subneddit', args=(sub_id,)))
+                reverse('website:viewpost', args=(sub_id, post_obj.id,)))
         return HttpResponseServerError()
 
     return render(request, 'website/subneddit_newpost.html', context)
+
 
 def view_post(request, sub_id, post_id):
     sub_id = sub_id.upper()
@@ -80,11 +82,43 @@ def view_post(request, sub_id, post_id):
 
     post_obj = Post.objects.get(id=post_id)
     comments = get_comments(post_obj)
-    print(comments)
     context = {
         'subneddit': subneddit_obj,
         'sidebar': "",
         'post': post_obj,
-        'comments': comments
+        'comments': comments,
+        'form': CommentForm()
     }
     return render(request, 'website/subneddit_viewpost.html', context)
+
+
+def post_comment(request, sub_id, post_id, parent_comment_id):
+    if (request.method != "POST"
+            or request.POST['comment'] is None
+            or len(request.POST['comment']) == 0):
+        # show post page if not post request, or no text entered
+        return view_post(request, sub_id, post_id)
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden()
+
+    sub_id = sub_id.upper()
+    subneddit_obj = Subneddit.objects.get(id=sub_id)
+    if not subneddit_obj:
+        return HttpResponseNotFound()
+    post_obj = Post.objects.get(id=post_id)
+    if not post_obj:
+        return HttpResponseNotFound()
+
+    parent_comment_obj = None
+    if parent_comment_id >= 0:  # if < 0, no parent comment
+        parent_comment_obj = Comment.objects.get(id=parent_comment_id)
+        if not parent_comment_obj:
+            return HttpResponseNotFound()
+
+    comment_obj = create_comment(
+            post_obj, parent_comment_obj, request.POST['comment'], request.user)
+
+    if comment_obj is not None:
+        return HttpResponseRedirect(
+            reverse('website:viewpost', args=(sub_id, post_obj.id,)))
+    return HttpResponseServerError()

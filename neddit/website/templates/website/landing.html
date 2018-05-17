@@ -21,11 +21,11 @@
               <button class="btn btn-outline-light">Continue to Neddit</button></a>
           {% else %}
             <form method="POST" action="{% url 'website:login' %}">
-            {% csrf_token %}
-            {% bootstrap_form form %}
-            {% buttons %}
-              <button class="btn btn-outline-light" type="submit">Login</button>
-            {% endbuttons %}
+              {% csrf_token %}
+              {% bootstrap_form form %}
+              {% buttons %}
+                <button class="btn btn-outline-light" type="submit">Login</button>
+              {% endbuttons %}
             </form>
           {% endif %}
           </div>

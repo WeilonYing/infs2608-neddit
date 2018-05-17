@@ -21,7 +21,6 @@ class Post(models.Model):
         return '{0}/{1}/%Y-%m-%d-%H-%M-%S/{2}'.format(
             instance.subneddit.id, instance.author.username, filename)
 
-    id = models.IntegerField(primary_key=True)
     subneddit = models.ForeignKey(Subneddit, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     submitDate = models.DateTimeField()
