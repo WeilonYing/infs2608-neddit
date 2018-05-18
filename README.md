@@ -1,5 +1,8 @@
 # infs2608-neddit
+Repo: (https://github.com/WeilonYing/infs2608-neddit)
 [https://github.com/WeilonYing/infs2608-neddit]
+
+Live demo: (http://whale.moe/neddit)[http://whale.moe/neddit]
 
 Information Systems project by Group Fourteen for the course INFS2608 at the
 University of New South Wales.
