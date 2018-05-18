@@ -37,6 +37,11 @@ class FaqView(BaseView):
     template_name = 'website/faq.html'
 
 
+def view_subnedditlist(request):
+    context = { 'subneddits': Subneddit.objects.all() }
+    return render(request, 'website/subnedditlist.html', context)
+
+
 def view_subneddit(request, sub_id):
     sub_id = sub_id.upper() # subneddit code is always uppercase
     subneddit_obj = Subneddit.objects.get(id=sub_id)
@@ -148,6 +153,6 @@ def post_downloadfile(request, sub_id, post_id):
     if not post_obj or post_obj.notefile is None:
         return HttpResponseNotFound()
     filename = os.path.basename(post_obj.notefile.url)
-    response = HttpResponse(post_obj.notefile.url, content_type='application/octet-stream')
+    response = HttpResponse(post_obj.notefile.file, content_type='application/octet-stream')
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     return response

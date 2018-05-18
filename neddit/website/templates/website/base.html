@@ -28,8 +28,16 @@
             <a class="nav-link" href="{% url 'website:index' %}">Home</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'website:subnedditlist' %}">Find Subneddits</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'website:faq' %}">FAQ</a>
           </li>
+          {% if user.is_superuser %} <!-- only displayed if user is logged in as superuser -->
+          <li class="nav-item">
+            <a class="nav-link" href="/admin">Admin (superuser only)</a>
+          </li>
+          {% endif %}
         </ul>
 
         <ul class="navbar-nav ml-auto">
@@ -61,8 +69,9 @@
   <footer class="footer">
     <div class="container">
       <div class="row">
-        <p><b>Disclaimer:</b> Neddit is not an actual website or service. This is a
-          course assignment project for INFS2608, Sem. 1 2018 at UNSW.</p>
+        <p style="font-size: 14px;"><b>Disclaimer:</b> Neddit is not an actual website or service. This is a
+          course assignment project for INFS2608, Sem. 1 2018 at UNSW. Project
+          by Group Fourteen</p>
       </div>
     </div>
   </footer>

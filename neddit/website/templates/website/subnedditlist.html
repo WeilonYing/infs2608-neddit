@@ -1,0 +1,29 @@
+{% extends "website/base.html" %}
+{% block content %}
+<div class="container">
+  {% if subneddits %}
+    <div class="card my-2">
+      <div class="card-body">
+        <h2>Find Subneddits</h2>
+      </div>
+    </div>
+    {% for s in subneddits %}
+    <div class="card my-2">
+      <div class="card-body">
+        <a href="{% url 'website:subneddit' sub_id=s.id %}">
+          <h5 class="card-title">{{ s.id }}</h5>
+        </a>
+        <p>{{ s.name }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="card my-2">
+      <div class="card-body">
+        <p>No subneddits available yet.</p>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}
