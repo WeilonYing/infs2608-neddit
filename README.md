@@ -34,8 +34,11 @@ This project depends on Python 3.6+ and Django 2.0+. It also depends on the
 bootstrap4 form plugin.
 
 ## Development & Testing Environment Setup
+- Install Python 3 (https://www.python.org/) and pip (https://pip.pypa.io/en/stable/installing/)
 - Use of your favourite Python virtual environment is highly recommended.
   `virtualenv` is a good one if you don't know where to start.
+  - You can install virtualenv by typing `pip install virtualenv` in your
+    terminal/command prompt
 - Create your virtual environment. Ensure your Python version is set to 3.6 or higher.
 - Enter your virtual environment and install `django` with pip (i.e. `pip install django`)
 - Install [bootstrap4 plugin](https://github.com/zostera/django-bootstrap4)
