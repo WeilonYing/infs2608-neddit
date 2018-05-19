@@ -35,7 +35,7 @@
           </li>
           {% if user.is_superuser %} <!-- only displayed if user is logged in as superuser -->
           <li class="nav-item">
-            <a class="nav-link" href="/admin">Admin (superuser only)</a>
+            <a class="nav-link" href="{% url 'admin:index' %}">Admin (superuser only)</a>
           </li>
           {% endif %}
         </ul>
